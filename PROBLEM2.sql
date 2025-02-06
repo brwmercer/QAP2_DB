@@ -58,3 +58,35 @@ INSERT INTO order_items (order_id, product_id, quantity) VALUES
 (4, 2, 1),
 (5, 3, 1),
 (5, 2, 1);
+
+-- Complete Tasks
+
+SELECT product_name, stock_quantity
+FROM products;
+
+SELECT products.product_name, order_items.quantity
+FROM order_items
+JOIN products ON order_items.product_id = products.id
+WHERE order_items.order_id = 2;
+
+SELECT orders.id AS order_id, order_items.product_id, order_items.quantity
+FROM orders 
+JOIN order_items ON orders.id = order_items.order_id
+WHERE orders.customer_id = 1;
+
+-- Update stock after order for order 1
+
+UPDATE products
+SET stock_quantity = stock_quantity - (
+    SELECT quantity
+    FROM order_items
+    WHERE order_id = 1 AND product_id = products.id)
+WHERE id IN (SELECT product_id FROM order_items WHERE order_id = 1);
+
+-- Delete order 3 and all associated order items 
+
+DELETE FROM orders
+WHERE id = 3;
+
+DELETE FROM order_items
+WHERE order_id = 3;
