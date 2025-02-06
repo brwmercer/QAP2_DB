@@ -55,3 +55,28 @@ INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES
 (3, 2, '2025-02-05'),
 (4, 3, '2025-02-05'),
 (5, 1, '2025-02-05');
+
+-- Complete Tasks
+
+SELECT students.first_name || " " || students.last_name AS student_full_name
+FROM students
+JOIN enrollments ON students.id = enrollments.student_id
+JOIN courses ON enrollments.course_id = courses.id
+WHERE courses.course_name = 'Offense'; -- No Physics 101 because Hockey Players don't like learning physics
+
+SELECT courses.course_name, professors.first_name || " " || professors.last_name AS professor_full_name
+FROM courses
+JOIN professors ON courses.professor_id = professors.id;
+
+SELECT DISTINCT courses.course_name
+FROM courses
+JOIN enrollments ON courses.id = enrollments.course_id;
+
+-- Update Student Email
+UPDATE students
+SET email = 'goat@nhl.com'
+WHERE id = 5;
+
+-- Remove student from a class
+DELETE FROM enrollments
+WHERE student_id = 4 AND course_id = 3;
